@@ -125,8 +125,10 @@ class DocumentationGenerator(object):
             w_properties = OrderedDict((k, v) for k, v in data['fields'].items()
                                        if k not in data['read_only'])
 
+            forced_name = getattr(serializer, "_{0}__swagger_model_write_name".format(serializer_name), None)
+
             models[w_name] = {
-                'id': w_name,
+                'id': forced_name if forced_name else w_name,
                 'required': [i for i in data['required'] if i in w_properties.keys()],
                 'properties': w_properties,
             }
@@ -138,8 +140,10 @@ class DocumentationGenerator(object):
             r_properties = OrderedDict((k, v) for k, v in data['fields'].items()
                                        if k not in data['write_only'])
 
+            forced_name = getattr(serializer, "_{0}__swagger_model_read_name".format(serializer_name), None)
+
             models[r_name] = {
-                'id': r_name,
+                'id': forced_name if forced_name else r_name,
                 'required': [i for i in r_properties.keys()],
                 'properties': r_properties,
             }
