@@ -281,16 +281,6 @@ class BaseMethodIntrospector(object):
         form_params = self.build_form_parameters()
         query_params = self.build_query_parameters()
 
-        new_form_params = []
-        if form_params and path_params:
-            for param in form_params:
-                for pparam in path_params:
-                    if param['name'] == pparam['name']:
-                        pparam['description']  = param['description']
-                    else:
-                        new_form_params.append(param)
-        form_params = new_form_params
-
         if path_params:
             params += path_params
 
